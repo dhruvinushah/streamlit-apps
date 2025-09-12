@@ -3,7 +3,7 @@ import streamlit as st
 import plotly.graph_objects as go
 
 # Page configuration
-st.set_page_config(page_title="Ad-Free Internet Speed Test", layout="centered")
+st.set_page_config(page_title="Internet Speed Test", layout="centered")
 
 # Sleek, dark theme CSS
 page_bg = """
