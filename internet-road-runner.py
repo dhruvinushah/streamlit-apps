@@ -1,15 +1,16 @@
+
 import streamlit as st
 import plotly.graph_objects as go
-import time
 
 # Page configuration
 st.set_page_config(page_title="Ad-Free Internet Speed Test", layout="centered")
 
-# Gradient background CSS
-page_bg = """<style>
+# Sleek, dark theme CSS
+page_bg = """
+<style>
 .stApp {
-  background: linear-gradient(135deg, #667eea, #764ba2, #89f7fe);
-  color: white;
+  background-color: #0E1117;
+  color: #fafafa;
 }
 div.block-container {
     padding-top: 2rem;
@@ -17,17 +18,17 @@ div.block-container {
     padding-right: 2rem;
     padding-bottom: 2rem;
 }
-</style>"""
+</style>
+"""
 st.markdown(page_bg, unsafe_allow_html=True)
 
 st.title("🚀 Ad-Free Internet Speed Test")
 st.write("This app tests your internet speed without ads and shows live gauges for download and upload speeds.")
 
-# Hold state for test results
+# State to hold results between runs
 if 'results' not in st.session_state:
     st.session_state['results'] = None
 
-# Button to start test
 if st.button('Start Test'):
     with st.spinner('Testing... This may take a while.'):
         try:
@@ -37,18 +38,13 @@ if st.button('Start Test'):
         else:
             try:
                 stt = speedtest.Speedtest()
-                # Get best server based on ping
                 stt.get_best_server()
-                # Perform download and upload tests
                 dl = stt.download()
                 ul = stt.upload()
                 ping = stt.results.ping
-                # Convert from bits/s to Mb/s
                 dl_mbps = dl / 1e6
                 ul_mbps = ul / 1e6
-                # Retrieve results dictionary for further details
                 results_dict = stt.results.dict()
-                # Store to session
                 st.session_state['results'] = {
                     'download': dl_mbps,
                     'upload': ul_mbps,
@@ -59,52 +55,55 @@ if st.button('Start Test'):
             except Exception as e:
                 st.error(f"Error running speedtest: {e}")
 
-# If results available, display
 if st.session_state['results']:
     res = st.session_state['results']
     dl_val = res['download']
     ul_val = res['upload']
     ping_val = res['ping']
-    # Gauge for download
+
     fig_dl = go.Figure(go.Indicator(
-        mode = "gauge+number",
-        value = dl_val,
-        title = {'text': "Download (Mb/s)"},
-        gauge = {'axis': {'range': [None, max(dl_val*1.5, 100)]},
-                 'bar': {'color': "#3333ff"}}
+        mode="gauge+number",
+        value=dl_val,
+        title={'text': "Download speed (Mb/s)"},
+        gauge={'axis': {'range': [None, max(dl_val*1.5, 100)]}, 'bar': {'color': "#00c2f0"}}
     ))
-    # Gauge for upload
     fig_ul = go.Figure(go.Indicator(
-        mode = "gauge+number",
-        value = ul_val,
-        title = {'text': "Upload (Mb/s)"},
-        gauge = {'axis': {'range': [None, max(ul_val*1.5, 100)]},
-                 'bar': {'color': "#ff5733"}}
+        mode="gauge+number",
+        value=ul_val,
+        title={'text': "Upload speed (Mb/s)"},
+        gauge={'axis': {'range': [None, max(ul_val*1.5, 100)]}, 'bar': {'color': "#ff7f50"}}
     ))
+
     st.plotly_chart(fig_dl, use_container_width=True)
+    st.write("*Download speed tells you how fast you can get stuff from the internet, like videos or games. Bigger numbers mean things load quicker!")
     st.plotly_chart(fig_ul, use_container_width=True)
+    st.write("*Upload speed tells you how fast you can send stuff to the internet, like photos or messages. Bigger numbers mean things send quicker!")
     st.write(f"**Ping:** {ping_val:.2f} ms")
-    # Show additional details
-    st.subheader("Client info")
+    st.write("*Ping measures how quickly a signal goes to the server and back, like the echo time in a canyon. Smaller numbers mean less delay, which is great for games!")
+
+    st.subheader("Client info (you)")
     client = res['client']
     if client:
-        st.write(f"ISP: {client.get('isp', 'N/A')}")
-        st.write(f"IP: {client.get('ip', 'N/A')}")
-        st.write(f"Latitude: {client.get('lat', 'N/A')}")
-        st.write(f"Longitude: {client.get('lon', 'N/A')}")
+        st.write(f"IP (your internet address): {client.get('ip', 'N/A')}")
+        st.write("*Your IP address is like your computer's house number on the internet. It helps other computers know where to send information.")
+        st.write(f"ISP (your internet helper): {client.get('isp', 'N/A')}")
+        st.write("*Your ISP is the company that gives you internet, like your internet helper provider.")
         st.write(f"Country: {client.get('country', 'N/A')}")
-    st.subheader("Server info")
+
+    st.subheader("Server info (tester)")
     server = res['server']
     if server:
         st.write(f"Host: {server.get('host', 'N/A')}")
+        st.write("*Host is the computer we use to test your speed. It's like picking a referee for a game.")
         st.write(f"Sponsor: {server.get('sponsor', 'N/A')}")
+        st.write("*Sponsor tells who lets us use this testing computer.")
         st.write(f"Country: {server.get('country', 'N/A')}")
-        st.write(f"Latency: {server.get('latency', 'N/A')} ms")
-    # Additional metrics: download/upload in bytes
-    st.write("---")
-    st.subheader("Raw Results")
+        st.write(f"Latency (ms): {server.get('latency', 'N/A')}")
+        st.write("*Latency is another word for ping specific to the server. Smaller values are better!")
+
+    st.write('---')
+    st.subheader('Raw Results')
     st.json(res)
 
-# Footer
-st.markdown("---")
-st.write("Built with ❤️ using Streamlit and speedtest-cli.")
+st.markdown('---')
+st.write('Built with ❤️ using Streamlit and speedtest-cli.')
