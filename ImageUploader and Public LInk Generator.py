@@ -8,9 +8,9 @@ st.title("Image Uploader and Public Link Generator")
 UPLOAD_DIR = Path("uploads")
 UPLOAD_DIR.mkdir(exist_ok=True)
 
-# Read query params
-params = st.experimental_get_query_params()
-image_key = params.get("image", [""])[0]
+# Read query params using the updated method
+params = st.query_params
+image_key = params.get("image", "")
 
 if image_key:
     # Show the image for the given key
@@ -32,8 +32,8 @@ if image_key:
         file_name = uploaded.name
         with open(UPLOAD_DIR / file_name, "wb") as f:
             f.write(uploaded.getbuffer())
-        st.experimental_set_query_params(image=file_name)
-        st.experimental_rerun()
+        st.query_params["image"] = file_name
+        st.rerun()
 else:
     # If no query param, show uploader
     uploaded = st.file_uploader("Choose an image...", type=["png", "jpg", "jpeg", "gif"])
@@ -43,5 +43,5 @@ else:
             f.write(uploaded.getbuffer())
         st.success(f"Saved file: {file_name}")
         st.image(uploaded, caption="Uploaded image")
-        st.experimental_set_query_params(image=file_name)
+        st.query_params["image"] = file_name
         st.markdown(f"Click here or bookmark `?image={file_name}` to view your image.")
