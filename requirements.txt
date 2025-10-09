@@ -2,3 +2,4 @@ streamlit
 speedtest-cli
 plotly
 PyMuPDF
+fpdf
