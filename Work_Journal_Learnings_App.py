@@ -39,7 +39,7 @@ if st.button("Save Entry"):
 
 
 # Entry Title and Date
-        pdf.set_font("Arial", 'B', 16)
+        pdf.set_font("Arial", 'BU', 16)
         pdf.cell(0, 10, f"Title: {journal_title}", ln=True)
         pdf.cell(0, 10, f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", ln=True)
         pdf.ln(5)
