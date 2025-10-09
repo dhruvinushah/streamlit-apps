@@ -2,7 +2,6 @@ import streamlit as st
 from datetime import datetime
 import fitz  # PyMuPDF
 import base64
-import os
 
 # Set page configuration
 st.set_page_config(page_title="Work Journal", layout="centered")
@@ -27,39 +26,37 @@ if st.button("Save Entry"):
         pdf_filename = f"{sanitized_title}_{timestamp}.pdf"
 
         # Create PDF content
-        content = f"""
-        Work Journal Entry
-        ------------------
+        content = f"""Work Journal Entry
+------------------
 
-        Title: {journal_title}
+Title: {journal_title}
 
-        Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 
-        What was the lesson?
-        ---------------------
-        {lesson_learned}
+What was the lesson?
+---------------------
+{lesson_learned}
 
-        How to do it?
-        --------------
-        {how_to_do}
+How to do it?
+--------------
+{how_to_do}
 
-        Additional Notes
-        ----------------
-        {additional_notes if additional_notes else 'N/A'}
-        """
+Additional Notes
+----------------
+{additional_notes if additional_notes else 'N/A'}
+"""
 
         # Generate PDF in memory
         doc = fitz.open()
         page = doc.new_page()
         text_rect = fitz.Rect(50, 50, 550, 800)
-        page.insert_textbox(text_rect, content, fontsize=12, fontname="helv")
+        page.insert_textbox(text_rect, content, fontsize=12, fontname="helv", align=0)
         pdf_bytes = doc.write()
         doc.close()
 
         # Encode PDF for download
         b64 = base64.b64encode(pdf_bytes).decode()
-        href = f'<a href="data:application/pdf;base64,{b64}" download="{pdf_filename}">📥 Click/a>'
-        st.success("✅ Your journal entry has been saved.")
+        href = f'<a href="data:application/pdf;base64,{b64}" download="{pdf_filename}">📥 Click here to downloaduccess("✅ Your journal entry has been saved.")
         st.markdown(href, unsafe_allow_html=True)
     else:
         st.error("Please fill in all required fields before saving.")
