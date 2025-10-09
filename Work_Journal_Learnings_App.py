@@ -25,18 +25,46 @@ if st.button("Save Entry"):
         pdf = FPDF()
         pdf.add_page()
         pdf.set_auto_page_break(auto=True, margin=15)
-        pdf.set_font("Arial", size=12)
 
-        pdf.cell(0, 10, "Work Journal Entry", ln=True, align="C")
-        pdf.ln(10)
-        pdf.cell(0, 10, f"Title: {journal_title}", ln=True)
-        pdf.cell(0, 10, f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", ln=True)
-        pdf.ln(5)
-        pdf.multi_cell(0, 10, f"What was the lesson?\n{lesson_learned}")
-        pdf.ln(5)
-        pdf.multi_cell(0, 10, f"How to do it?\n{how_to_do}")
-        pdf.ln(5)
-        pdf.multi_cell(0, 10, f"Additional Notes\n{additional_notes if additional_notes else 'N/A'}")
+        
+# Draw margin box
+pdf.set_draw_color(0, 0, 0)
+pdf.rect(10, 10, 190, 277)  # A4 page with 1cm margins
+
+
+# Title
+pdf.set_font("Arial", 'B', 16)
+pdf.cell(0, 10, "Work Journal Entry", ln=True, align="C")
+pdf.ln(10)
+
+
+# Entry Title and Date
+pdf.set_font("Arial", size=12)
+pdf.cell(0, 10, f"Title: {journal_title}", ln=True)
+pdf.cell(0, 10, f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", ln=True)
+pdf.ln(5)
+
+
+# Function to add a section with formatted title and boxed answer
+def add_section(title, content):
+    pdf.set_font("Arial", 'B', 14)
+    pdf.cell(0, 10, title, ln=True)
+    pdf.set_font("Arial", size=12)
+    pdf.set_fill_color(240, 240, 240)
+    pdf.multi_cell(0, 10, content, border=1, fill=True)
+    pdf.ln(5)
+
+
+# Add sections
+add_section("What was the lesson?\n", {lesson_learned})
+add_section("How to do it?\n", {how_to_do})
+add_section("Additional Notes\n", {additional_notes if additional_notes else 'N/A'}")
+
+        # pdf.multi_cell(0, 10, f"What was the lesson?\n{lesson_learned}")
+        # pdf.ln(5)
+        # pdf.multi_cell(0, 10, f"How to do it?\n{how_to_do}")
+        # pdf.ln(5)
+        # pdf.multi_cell(0, 10, f"Additional Notes\n{additional_notes if additional_notes else 'N/A'}")
 
         # Output PDF to bytes
         pdf_bytes = pdf.output(dest='S').encode('latin1')
