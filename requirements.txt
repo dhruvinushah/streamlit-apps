@@ -1,3 +1,4 @@
 streamlit
 speedtest-cli
 plotly
+PyMuPDF
