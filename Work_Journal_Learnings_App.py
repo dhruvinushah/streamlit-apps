@@ -33,7 +33,7 @@ if st.button("Save Entry"):
 
 
 # Title
-        pdf.set_font("DIN", 'B', 18)
+        pdf.set_font("DIN", size=18)
         pdf.cell(0, 10, "Work Journal Entry", ln=True, align="C")
         pdf.ln(10)
 
