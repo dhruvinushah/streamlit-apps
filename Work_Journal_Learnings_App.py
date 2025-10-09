@@ -59,7 +59,7 @@ Additional Notes
 
         # Encode PDF for download
         b64 = base64.b64encode(pdf_bytes).decode()
-        download_link = f'<a href="data:application/pdf;base64,{b64}" download="{pdf_filename}">📥 Click here to download your journal entry has been saved.")
+        download_link = f'<a href="data:application/pdf;base64,{b64}" download="{pdf_filename}">📥 Click here to download your journal entry (pdf)'
         st.markdown(download_link, unsafe_allow_html=True)
     else:
         st.error("❌ Please fill in all required fields before saving.")
