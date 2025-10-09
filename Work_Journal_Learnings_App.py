@@ -56,9 +56,9 @@ if st.button("Save Entry"):
 
 
 # Add sections
-        add_section("What was the lesson?\n", {lesson_learned})
-        add_section("How to do it?\n", {how_to_do})
-        add_section("Additional Notes\n", {additional_notes if additional_notes else 'N/A'})
+        add_section("What was the lesson?", lesson_learned)
+        add_section("How to do it?", how_to_do)
+        add_section("Additional Notes", additional_notes if additional_notes else "N/A")
 
         # pdf.multi_cell(0, 10, f"What was the lesson?\n{lesson_learned}")
         # pdf.ln(5)
