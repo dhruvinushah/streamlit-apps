@@ -10,7 +10,10 @@ st.set_page_config(page_title="Work Journal", layout="centered")
 st.title("📘 Work Journal & Learnings")
 
 # Description
-st.markdown("Welcome to your personal work journal! Fill in the sections below to document your work activities and learnings. Once completed, your entry will be saved as a well-formatted PDF and made available for download.")
+st.markdown(
+    "Welcome to your personal work journal! Fill in the sections below to document your work activities and learnings. "
+    "Once completed, your entry will be saved as a well-formatted PDF and made available for download."
+)
 
 # Input fields for journaling
 journal_title = st.text_input("📝 What am I journaling?")
@@ -56,8 +59,7 @@ Additional Notes
 
         # Encode PDF for download
         b64 = base64.b64encode(pdf_bytes).decode()
-        href = f'<a href="data:application/pdf;base64,{b64}" download="{pdf_filename}">📥 Click here to download your journal entry</a>'
-try has been saved.")
-        st.markdown(href, unsafe_allow_html=True)
+        download_link = f'<a href="data:application/pdf;base64,{b64}" download="{pdf_filename}">📥 Click here to download your journal entry has been saved.")
+        st.markdown(download_link, unsafe_allow_html=True)
     else:
-        st.error("Please fill in all required fields before saving.")
+        st.error("❌ Please fill in all required fields before saving.")
