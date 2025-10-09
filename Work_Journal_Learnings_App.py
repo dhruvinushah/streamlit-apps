@@ -33,13 +33,13 @@ if st.button("Save Entry"):
 
 
 # Title
-        pdf.set_font("Arial", 'B', 16)
+        pdf.set_font("DIN", 'B', 18)
         pdf.cell(0, 10, "Work Journal Entry", ln=True, align="C")
         pdf.ln(10)
 
 
 # Entry Title and Date
-        pdf.set_font("Arial", size=12)
+        pdf.set_font("DIN", 'B', 16)
         pdf.cell(0, 10, f"Title: {journal_title}", ln=True)
         pdf.cell(0, 10, f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", ln=True)
         pdf.ln(5)
@@ -47,9 +47,9 @@ if st.button("Save Entry"):
 
 # Function to add a section with formatted title and boxed answer
         def add_section(title, content):
-            pdf.set_font("Arial", 'B', 14)
+            pdf.set_font("DIN", 'B', 14)
             pdf.cell(0, 10, title, ln=True)
-            pdf.set_font("Arial", size=12)
+            pdf.set_font("DIN", size=12)
             pdf.set_fill_color(240, 240, 240)
             pdf.multi_cell(0, 10, content, border=1, fill=True)
             pdf.ln(5)
