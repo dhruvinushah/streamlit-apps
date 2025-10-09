@@ -41,7 +41,7 @@ if st.button("Save Entry"):
         # Output PDF to bytes
         pdf_bytes = pdf.output(dest='S').encode('latin1')
         b64 = base64.b64encode(pdf_bytes).decode()
-        href = f'data:application/pdf;base64,{b64}📥 Click here to download your journal entry</a>'
+        href = f' <a href="data:application/pdf;base64,{b64}" download="{pdf_filename}">📥 Click here to download your journal entry </a>'
 
         st.success("✅ Your journal entry has been saved.")
         st.markdown(href, unsafe_allow_html=True)
