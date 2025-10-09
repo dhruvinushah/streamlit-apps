@@ -52,4 +52,6 @@ if st.button("Save as PDF"):
         doc.close()
 
         st.success(f"Your journal entry has been saved as {pdf_filename}")
-        st.markdown(f"[Download {pdf_filename}](./{pdf_filenamerror("Please fill in all required fields before saving.")
+        st.markdown(f"./{pdf_filename}")
+    else:
+        st.error("Please fill in all required fields before saving.")
